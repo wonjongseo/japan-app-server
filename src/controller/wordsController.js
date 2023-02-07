@@ -22,6 +22,9 @@ export const getWordsByFirstword = async (req, res, next) => {
        'hundoc' : words[i]['hundoc'],
        'firstWord' : words[i]['firstWord'],
        'id' : words[i]['id'],
+
+
+       
       }
 
       json.push(tmp);
