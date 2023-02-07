@@ -4,10 +4,30 @@ import { postRelatedWords } from "./relatedWordsController";
 
 export const getWordsByFirstword = async (req, res, next) => {
   const { firstWord } = req.query;
-
   const words = await Word.find({ firstWord });
 
-  return res.json(words);
+  const json  = [];
+
+    for(let i = 0 ; i< words.length ; i++) {
+      var tmpMean=  words[i]['mean'];
+      if(tmpMean.includes('\b')) {
+        tmpMean = tmpMean.split('\b')[1];
+        console.log(tmpMean);
+      }
+
+      var tmp = {
+       'kangi' : words[i]['kangi'], 
+       'mean' : tmpMean,
+       'undoc' : words[i]['undoc'],
+       'hundoc' : words[i]['hundoc'],
+       'firstWord' : words[i]['firstWord'],
+       'id' : words[i]['id'],
+      }
+
+      json.push(tmp);
+    }
+
+  return res.json(json);
 };
 
 export const getWordsByLevel = async (req, res, next) => {
