@@ -7,9 +7,9 @@ export const books = xlsx.readFile(__dirname + "/../public/book_all.xlsx");
 export const stepCnt = 15;
 
 export const postWords = async (firstWord) => {
-  await Word.deleteMany({ firstWord });
+  // await Word.deleteMany({ firstWord });
   let book;
-
+  const returnWords = [];
   if (firstWord == "ja") {
     return;
   }
@@ -45,19 +45,32 @@ export const postWords = async (firstWord) => {
     const undoc = undocObj.w;
     const hundoc = hundocObj.w;
 
-    let tmpLevel = Math.floor(Math.random() * 5) + 1;
-    await Word.create({
+    // let tmpLevel = Math.floor(Math.random() * 5) + 1;
+
+    const temp = {
       id,
       kangi,
       mean,
       undoc,
       hundoc,
       firstWord,
-      level: tmpLevel,
-    });
+      // level: tmpLevel,
+    };
+
+    returnWords.push(temp);
+    // await Word.create({
+    //   id,
+    //   kangi,
+    //   mean,
+    //   undoc,
+    //   hundoc,
+    //   firstWord,
+    //   // level: tmpLevel,
+    // });
 
     i++;
   }
+  return returnWords;
 };
 
 export const postRelatedWords = async (firstWord) => {

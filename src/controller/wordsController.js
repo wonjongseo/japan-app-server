@@ -6,29 +6,26 @@ export const getWordsByFirstword = async (req, res, next) => {
   const { firstWord } = req.query;
   const words = await Word.find({ firstWord });
 
-  const json  = [];
+  const json = [];
 
-    for(let i = 0 ; i< words.length ; i++) {
-      var tmpMean=  words[i]['mean'];
-      if(tmpMean.includes('\b')) {
-        tmpMean = tmpMean.split('\b')[1];
-        console.log(tmpMean);
-      }
-
-      var tmp = {
-       'kangi' : words[i]['kangi'], 
-       'mean' : tmpMean,
-       'undoc' : words[i]['undoc'],
-       'hundoc' : words[i]['hundoc'],
-       'firstWord' : words[i]['firstWord'],
-       'id' : words[i]['id'],
-
-
-       
-      }
-
-      json.push(tmp);
+  for (let i = 0; i < words.length; i++) {
+    var tmpMean = words[i]["mean"];
+    if (tmpMean.includes("\b")) {
+      tmpMean = tmpMean.split("\b")[1];
+      console.log(tmpMean);
     }
+
+    var tmp = {
+      kangi: words[i]["kangi"],
+      mean: tmpMean,
+      undoc: words[i]["undoc"],
+      hundoc: words[i]["hundoc"],
+      firstWord: words[i]["firstWord"],
+      id: words[i]["id"],
+    };
+
+    json.push(tmp);
+  }
 
   return res.json(json);
 };
@@ -41,12 +38,13 @@ export const getWordsByLevel = async (req, res, next) => {
 };
 
 export const postExcel = async (req, res, next) => {
+  console.log("aaaaa");
   const { firstWord } = req.query;
 
-  await postWords(firstWord);
-  await postRelatedWords(firstWord);
+  const allWords = await postWords(firstWord);
+  // await postRelatedWords(firstWord);
 
-  return res.json("Success");
+  return res.json(allWords);
 };
 
 export const getFirstameCnt = async (req, res, next) => {
